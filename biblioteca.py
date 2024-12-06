@@ -37,11 +37,14 @@ class BibliotecaAvancada:
         Exibe os detalhes de um livro específico com base no índice.
         """
         if self.livros.is_empty():
-            print("Não há livros cadastrados ainda :(")
+            print("Não há livros cadastrados :(")
             return
 
-        livro = self.livros.get_by_index(index)
-        if livro:
+        # Obtém o nó no índice especificado
+        node = self.livros.get_by_index(index)
+        
+        if node:  # Verifica se o nó foi encontrado
+            livro = node.data  # Acessa o livro dentro do nó
             print("\nDetalhes do Livro:")
             print(f"➥ Título: {livro.titulo}")
             print(f"➥ Autor: {livro.autor}")
@@ -49,12 +52,13 @@ class BibliotecaAvancada:
         else:
             print("Índice inválido.")
 
+
     def remover_livro(self, index):
         """
         Remove um livro da biblioteca com base no índice.
         """
         if self.livros.is_empty():
-            print("Não há livros cadastrados ainda :(")
+            print("Não há livros cadastrados :(")
             return
 
         self.livros.remove_by_index(index)
@@ -64,7 +68,7 @@ class BibliotecaAvancada:
         Exibe todos os livros de um determinado tema.
         """
         if self.arvore_temas.is_empty():
-            print("Não há livros cadastrados ainda :(")
+            print("Não há livros cadastrados :(")
             return
 
         livros_tema = self.arvore_temas.buscar(tema)
@@ -82,7 +86,7 @@ class BibliotecaAvancada:
         Recomenda livros baseados em um tema específico.
         """
         if self.arvore_temas.is_empty():
-            print("Não há livros cadastrados ainda :(")
+            print("Não há livros cadastrados  :(")
             return
 
         livros_recomendados = self.arvore_temas.buscar(tema)
@@ -141,3 +145,25 @@ class BibliotecaAvancada:
             print(f"Recomendações de livros sobre o tema '{tema}':")
             for livro in recomendados:
                 print(f"➥ Título: {livro.titulo} | Autor: {livro.autor} | Ano: {livro.ano}")
+
+
+    def recomendar_por_autor(self, autor):
+        if self.livros.is_empty():
+            print("Não há livros cadastrados ainda :(")
+            return
+       
+        if not autor or autor.strip() == "":
+            print("Por favor, forneça um nome de autor válido.")
+            return
+        
+        livros_por_autor = [livro for livro in self.livros.to_list() if livro.autor.lower() == autor.lower()]
+        livros_por_autor.sort(key=lambda livro: livro.titulo)
+
+        if livros_por_autor:
+            print(f"\nRecomendações de livros do autor '{autor}':")
+            for livro in livros_por_autor:
+                print(f"➥ Título: {livro.titulo}")
+                print(f"➥ Autor: {livro.autor}")
+                print(f"➥ Ano de Lançamento: {livro.ano}\n")
+        else:
+            print(f"Não foram encontrados livros do autor '{autor}'.")

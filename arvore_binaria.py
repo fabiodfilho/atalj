@@ -1,10 +1,10 @@
+
 class Node:
     def __init__(self, tema, livro=None):
         self.tema = tema
         self.livros = [livro] if livro else []
         self.esquerda = None
         self.direita = None
-
 
 class ArvoreBinaria:
     def __init__(self):
@@ -84,3 +84,4 @@ class ArvoreBinaria:
                 print(f"  ➥ Autor: {livro.autor}")
                 print(f"  ➥ Ano de Lançamento: {livro.ano}")
             self._exibir_em_ordem(node.direita)
+
